@@ -12,7 +12,7 @@
 namespace median_online
 {
 
-Parser::Parser(int argc, char **argv) : mArgsCounter(argc), mCurrentToken(1), mArgs(argv)
+Parser::Parser(int argc, char **argv) : _argsCounter(argc), _currentToken(1), _args(argv)
 {
 }
 
@@ -21,17 +21,17 @@ Parser::~Parser()
 }
 
 
-Parser::Operation Parser::getNextOperation()
+Operation Parser::getNextOperation()
 {
     Operation operation = Operation(OperationType::Quit, -1);
 
-    if (mCurrentToken >= mArgsCounter)
+    if (_currentToken >= _argsCounter)
     {
         return operation;
     }
 
     // String overhead is negligible, don't cry
-    std::string token = mArgs[mCurrentToken];
+    std::string token = _args[_currentToken];
 
     if (isMedian(token))
     {
@@ -51,12 +51,12 @@ Parser::Operation Parser::getNextOperation()
         }
         catch (const std::logic_error &ex)
         {
-            std::cerr << __FUNCTION__ << " Unable to parse " << mCurrentToken << " argument '"
+            std::cerr << __FUNCTION__ << " Unable to parse " << _currentToken << " argument '"
                       << token << "'" << ", reason " << ex.what() << '\n';
         }
     }
 
-    mCurrentToken++;
+    _currentToken++;
 
     return operation;
 }
